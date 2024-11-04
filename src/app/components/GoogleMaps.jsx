@@ -1,10 +1,6 @@
 "use client";
 import { useMemo, useState, useEffect } from "react";
-import {
-  GoogleMap,
-  Marker,
-  useLoadScript,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { FaLocationArrow } from "react-icons/fa";
 import "./style.css";
 
@@ -55,9 +51,14 @@ const GoogleMaps = ({
       setAddress(place.formatted_address);
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
+      const newUserPosition = { lat, lng };
+      setMarkerPosition(newUserPosition);
+      if (map) {
+        map.panTo(newUserPosition);
+        map.setZoom(17);
+      }
       setLatitude(lat);
       setLongitude(lng);
-      setMarkerPosition({ lat, lng });
     }
   };
 
@@ -70,7 +71,7 @@ const GoogleMaps = ({
           setMarkerPosition(newUserPosition);
           if (map) {
             map.panTo(newUserPosition);
-            map.setZoom(15);
+            map.setZoom(17);
           }
           setLatitude(latitude);
           setLongitude(longitude);
@@ -115,7 +116,7 @@ const GoogleMaps = ({
       <GoogleMap
         mapContainerClassName="map-container"
         center={center}
-        zoom={10}
+        zoom={14}
         onLoad={(map) => setMap(map)}
         onClick={handleMapClick}
         options={{
